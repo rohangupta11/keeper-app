@@ -7,9 +7,9 @@ function NoteList({ notes, deleteNote }) { //for rendering all notes components
         return (
           <Note //rending ith note one by one through map fnc
             key={index} 
-            id={index} // id/index of our note
+            id={noteItem._id} // id of our note
             title={noteItem.title}
-            content={noteItem.content}
+            description={noteItem.description}
             date={noteItem.date}
             onDelete={deleteNote} //passing our delete fnc prop which exists in app, to note component so it that can call it there upon clicking of remove note button. two way passing
           />

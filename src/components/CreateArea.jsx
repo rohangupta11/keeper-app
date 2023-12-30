@@ -4,28 +4,33 @@ import Fab from '@mui/material/Fab';
 function CreateArea(props) { 
   const [note, setNote] = useState({ //state of our new note
     title: "",
-    content: "",
+    description: "",
     date:""
   });
 
   function handleChange(event) {
-    const { name, value } = event.target; //name means event performed on title or content? value means text entered
+    const { name, value } = event.target; //name means event performed on title or description? value means text entered
     setNote((prevNote) => {
       return {
-        ...prevNote, //we have previous title,content,date of our note. Suppose title is changed so we change title and keep the content,date same by this spread operator
+        ...prevNote, //we have previous title,description,date of our note. Suppose title is changed so we change title and keep the description,date same by this spread operator
         [name]: value //[] is used to differentiate b/w name as a new key value pair's key or [name] means the variable declared above
       };
     });
   }
 
   function submitNote(event) {
-    props.onAdd(note.title,note.content); //call goes to app component to add the new note in notes array. We pass our new note's title and content/
-    setNote({ //createnote area becomes empty on submission of note
-      title: "",
-      content: "",
-      date:""
-    });
-    event.preventDefault(); //default behaviour was to refresh the page on clicking +
+    if(note.title==="" && note.description==="" )props.showAlert("Cant add an empty note! Please add some description","danger");
+    else if(note.title.length<3)props.showAlert("Title should be atleast 3 characters","danger");
+    else if(note.description.length<5)props.showAlert("Description should be atleast 5 characters","danger");
+    else{
+      props.onAdd(note.title,note.description); //call goes to app component to add the new note in notes array. We pass our new note's title and description/
+      setNote({ //createnote area becomes empty on submission of note
+        title: "",
+        description: "",
+        date:""
+      });
+      event.preventDefault(); //default behaviour was to refresh the page on clicking +
+    }
   }
   const [isExpanded, setExpand] = useState(false); //for animation effect. area is expanded on click of new notes area
   function expandArea() {
@@ -44,10 +49,10 @@ function CreateArea(props) {
           />
         ) : null}
         <textarea
-          name="content"
+          name="description"
           onClick={expandArea} //for animation
           onChange={handleChange}
-          value={note.content}
+          value={note.description}
           placeholder="Take a note..."
           rows={isExpanded ? 3 : 1} 
         />

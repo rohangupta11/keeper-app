@@ -13,13 +13,13 @@ router.post(
   "/createuser",
   [
     body("email", "Enter a valid email").isEmail(),
-    body("name", "Enter a valid name").isLength({ min: 3 }),
     body("password").isLength({ min: 5 }),
   ],
   async (req, res) => {
+    let success=false;
     const errors = validationResult(req); // to validate user entered information is correct or not. this "errors" will catch the request body errors
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() }); //will send the error of validation which occured due to users wrong req body
+      return res.status(400).json({ success,errors: errors.array() }); //will send the error of validation which occured due to users wrong req body
     }
 
     try {
@@ -29,7 +29,7 @@ router.post(
         //if exists then send status 400 and return
         return res
           .status(400)
-          .json({ errors: "Sorry a user with this email already exists" });
+          .json({ success,errors: "Sorry a user with this email already exists" });
       }
 
       //hashing and salting the password to be inserted in db
@@ -50,7 +50,8 @@ router.post(
       //the server adds the secret key to the token before sending it to the client so that whenever the server recieves back the token on another request, it can authorize the user. if user changed info of token then new signature(payload+header) will not match of actual signature.
         // console.log(authToken);
       //sending the user entered data to the client
-      res.json({authToken});
+      success=true;
+      res.json({success,authToken});
     } catch (err) {
       console.log(err.message);
       res.status(500).send("Internal Server Error");
@@ -68,9 +69,10 @@ router.post(
     body("password", "Password cannot be blank").exists()
     ],
     async(req,res)=>{
+        let success=false;
         const errors = validationResult(req); // to validate user entered information is correct or not. this "errors" will catch the request body errors
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() }); //will send the error of validation which occured due to users wrong req body
+            return res.status(400).json({success, errors: errors.array() }); //will send the error of validation which occured due to users wrong req body
         }
         const {email,password} = req.body;
         try{
@@ -85,15 +87,16 @@ router.post(
             if(!passwordCompare){
                 return res
                 .status(400)
-                .json({ errors: "Please try to login with correct credentials" });
+                .json({success,errors: "Please try to login with correct credentials" });
             }
             const data={
                 user:{
-                    id:user.id
+                    id:user.id //passing user's id to his token
                 }
             }
             const authToken= jwt.sign(data,JWT_SECRET);
-            res.json({authToken});
+            success=true;
+            res.json({success,authToken});
         }
         catch(err)
         {

@@ -2,23 +2,23 @@ import React,{useState} from 'react'
 import NoteList from "./NoteList";
 import CreateArea from "./CreateArea";
 import Search from "./Search";
+import { useNavigate } from "react-router-dom";
 
 const Home = ({showAlert}) => {
     const host="http://localhost:5000";
     const [notes, setNotes] = useState([]); //our notes array
     const [searchText, setSearchText] = useState(""); //state of search text
-  
-   React.useEffect(()=>{
-    getNotes()
-   },[]);
-  // React.useEffect(()=>{
-  //   if(localStorage.getItem("token")){
-  //     getNotes();
-  //   }
-  //   else{
-  //     navigate("/login")
-  //   }
-  // })
+    let navigate=useNavigate();
+    
+    React.useEffect(()=>{
+    if(localStorage.getItem("token")){
+      getNotes()
+    }
+    else{
+      console.log("Yes")
+      navigate("/login")
+    }
+  },[])
   
     function handleSearch(event) { //when we type something on search box,this fnc gets called
       setSearchText(event.target.value.toLowerCase()); //sets search text state to lower case so that we can filter from tht text
@@ -31,7 +31,7 @@ const Home = ({showAlert}) => {
         method: "GET", 
         headers: {
           "Content-Type": "application/json",
-          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU5MDA2NzE5ODJiMWZmZDI2ZGZmNzVkIn0sImlhdCI6MTcwMzkzNzcxNn0.ISMTXzvfKYayIi8ZZ5Kle7D2_JcubnoIsN2tsE7LJ8A"
+          "auth-token":localStorage.getItem("token")
         }
       });
       const json=await response.json();
@@ -47,7 +47,7 @@ const Home = ({showAlert}) => {
           method: "POST", 
           headers: {
             "Content-Type": "application/json",
-            "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU5MDA2NzE5ODJiMWZmZDI2ZGZmNzVkIn0sImlhdCI6MTcwMzkzNzcxNn0.ISMTXzvfKYayIi8ZZ5Kle7D2_JcubnoIsN2tsE7LJ8A"
+            "auth-token":localStorage.getItem("token")
           },
           body: JSON.stringify({title,description}),
         });
@@ -68,7 +68,7 @@ const Home = ({showAlert}) => {
           method: "DELETE", 
           headers: {
             "Content-Type": "application/json",
-            "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU5MDA2NzE5ODJiMWZmZDI2ZGZmNzVkIn0sImlhdCI6MTcwMzkzNzcxNn0.ISMTXzvfKYayIi8ZZ5Kle7D2_JcubnoIsN2tsE7LJ8A"
+            "auth-token":localStorage.getItem("token")
           }
         });
         setNotes((prevNotes) => {
@@ -90,7 +90,7 @@ const Home = ({showAlert}) => {
     //     method: "POST", 
     //     headers: {
     //       "Content-Type": "application/json",
-    //       "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU5MDA2NzE5ODJiMWZmZDI2ZGZmNzVkIn0sImlhdCI6MTcwMzkzNzcxNn0.ISMTXzvfKYayIi8ZZ5Kle7D2_JcubnoIsN2tsE7LJ8A"
+    //       "auth-token":localStorage.getItem("token")
     //     },
     //     body: JSON.stringify(noteTitle,noteDescription), 
     //   });

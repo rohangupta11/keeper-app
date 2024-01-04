@@ -42,11 +42,11 @@ function Signup(props) {
         });
         if (json.success) {
           //save the authtoken and redirect
-          localStorage.setItem("token", json.authtoken);
+          localStorage.setItem("token", json.authToken);
           props.showAlert("Successfully signed up!","success");
           navigate("/");
         } else {
-          props.showAlert("Invalid credentials, Please try again!","danger");
+          props.showAlert("A user with this email already exists, Please try again!","danger");
         }
       } catch (err) {
         console.log(err);
@@ -65,6 +65,7 @@ function Signup(props) {
   }
   return (
     <div className="container">
+      <h1 className="mb-4">Create a new account</h1>
       <form onSubmit={handleSubmit} className="mt-3">
         <div className="mb-3">
           <label htmlFor="email" className="form-label">

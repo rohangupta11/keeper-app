@@ -50,9 +50,6 @@
     font-size: 12px;
   }
   .note button {
-    position: relative;
-    float: right;
-    margin-right: 10px;
     border: none;
     color: black;
     background-color: #FEFBE7;
@@ -101,7 +98,7 @@
     cursor: pointer;
     outline: none;
   }
-  form.create-note button:hover {
+form.create-note button:hover {
     background-color: rgb(97, 79, 76);
   }
   .search {

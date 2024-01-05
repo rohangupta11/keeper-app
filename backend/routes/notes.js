@@ -7,8 +7,8 @@ const { body, validationResult } = require("express-validator");
 
 //ROUTE 1: Get all notes GET "api/notes/fetchallnotes". login required
 router.get('/fetchallnotes',fetchuser,async (req,res)=>{
-    const notes=await Note.find({user:req.user.id});
-    res.json(notes)
+    const notes=await Note.find({user:req.user.id}); //js object
+    res.json(notes) //convert to json and sends to client
 })
 
 //ROUTE 2: Add a new note using POST "api/notes/addnote". login required

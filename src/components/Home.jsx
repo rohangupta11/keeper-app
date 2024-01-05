@@ -15,7 +15,6 @@ const Home = ({showAlert}) => {
       getNotes()
     }
     else{
-      console.log("Yes")
       navigate("/login")
     }
   },[])
@@ -35,7 +34,15 @@ const Home = ({showAlert}) => {
         }
       });
       const json=await response.json();
-      setNotes(json)
+      if (response.ok) {   
+        setNotes(json)
+      }
+      else {
+        // console.log(json.error)
+        showAlert("Please login again","danger")
+        localStorage.removeItem("token")
+        navigate("/login")
+      }
     }
     catch(err){console.log(err)};
   }
@@ -52,7 +59,6 @@ const Home = ({showAlert}) => {
           body: JSON.stringify({title,description}),
         });
         const note=await response.json();
-        // console.log(note);
         setNotes(notes.concat(note));
         showAlert("Note added successfully!","success");
       }
@@ -84,27 +90,24 @@ const Home = ({showAlert}) => {
     }
   
     //EDIT NOTE
-    // async function editNote(id,noteTitle,noteDescription){
-    //   //API CALL
-    //   const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-    //     method: "POST", 
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "auth-token":localStorage.getItem("token")
-    //     },
-    //     body: JSON.stringify(noteTitle,noteDescription), 
-    //   });
-    //   const json=response.json();
-    //   for(let index=0;index<notes.length;index++)
-    //   {
-    //     const idx=notes.findIndex((note)=>note._id===id);
-    //     if(idx>-1)
-    //     {
-    //       notes[idx].title=noteTitle,
-    //       notes[idx].description=noteDescription
-    //     }
-    //   }
-    // }
+    async function editNote(id,noteTitle,noteDescription){
+      //API CALL
+      try{
+            const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+                method: "PUT", 
+                headers: {
+                "Content-Type": "application/json",
+                "auth-token":localStorage.getItem("token")
+                },
+                body: JSON.stringify({title:noteTitle,description:noteDescription}), 
+            });
+            getNotes();
+            showAlert("Note updated successfully!","success");
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
     
     
   return (
@@ -112,11 +115,11 @@ const Home = ({showAlert}) => {
         <Search handleSearch={handleSearch} />{/*this prop gets called when user types on searchbox*/}
         <CreateArea onAdd={addNote} showAlert={showAlert} /> {/*when + is clicked, addNote adds the new note to notes array*/}
         <NoteList
-            // notes={notes}
             notes={notes.filter((noteItem) =>
             (noteItem.title.toLowerCase().includes(searchText) || noteItem.description.toLowerCase().includes(searchText))
             )} //filter from our notes to only show ones that have search text in them
             deleteNote={deleteNote} //passing to NoteList to Note component so that it can call it upon clicking of delete button, and we can modify notes array from here
+            editNote={editNote}
         /> 
     </div>
   )

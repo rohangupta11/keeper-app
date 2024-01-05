@@ -32,7 +32,6 @@ function Signup(props) {
           }
         );
         const json = await response.json();
-        console.log(json);
         setCredentials({
           //createnote area becomes empty on submission of note
           name: "",
@@ -78,6 +77,7 @@ function Signup(props) {
             value={credentials.name}
             id="name"
             name="name"
+            placeholder="Enter your name"
           />
         </div>
         <div className="mb-3">
@@ -92,6 +92,7 @@ function Signup(props) {
             id="email"
             name="email"
             aria-describedby="emailHelp"
+            placeholder="Enter your email"
           />
         </div>
         <div className="mb-3">
@@ -106,6 +107,7 @@ function Signup(props) {
             id="password"
             name="password"
             minLength={5}
+            placeholder="Enter your password"
             required
           />
         </div>
@@ -121,10 +123,11 @@ function Signup(props) {
             id="cpassword"
             name="cpassword"
             minLength={5}
+            placeholder="Re-enter your password"
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-success">
           Submit
         </button>
       </form>

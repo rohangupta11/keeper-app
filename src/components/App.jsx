@@ -21,7 +21,7 @@ function App() {
   return (
     <div>
       <Router>
-        <Header />
+        <Header showAlert={showAlert} />
         <Alert alert={alert} />
         <Switch>
           <Route exact path="/" element={<Home showAlert={showAlert}/>}/>

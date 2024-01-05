@@ -23,7 +23,6 @@ function Login(props) {
         }),
       });
       const json = await response.json();
-      console.log(json);
       setCredentials({ //createnote area becomes empty on submission of note
         email: "",
         password: ""
@@ -67,11 +66,9 @@ function Login(props) {
             value={credentials.email}
             id="email"
             name="email"
+            placeholder="Enter your email"
             aria-describedby="emailHelp"
           />
-          <div id="emailHelp" className="form-text">
-            We'll never share your email with anyone else.
-          </div>
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
@@ -84,9 +81,10 @@ function Login(props) {
             value={credentials.password}
             id="password"
             name="password"
+            placeholder="Enter your password"
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-success">
           Submit
         </button>
       </form>

@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt=require("jsonwebtoken");
 const fetchUser=require("../middleware/fetchUser");
 
-const JWT_SECRET="Rohanisagoodboy"
+const JWT_SECRET="64738248929"
 
 //ROUTE 1:Create a user using POST "api/auth/createuser". Doesnt need authorisation
 router.post(
@@ -48,7 +48,6 @@ router.post(
       }
       const authToken= jwt.sign(data,JWT_SECRET); //whenever a user logs in he is authenticated, and the server sends him a token. now when that user wants to access a service he will req the server and also send back the recieved token to verify that he is the same person who logged in before and he has access to that service/resource
       //the server adds the secret key to the token before sending it to the client so that whenever the server recieves back the token on another request, it can authorize the user. if user changed info of token then new signature(payload+header) will not match of actual signature.
-        // console.log(authToken);
       //sending the user entered data to the client
       success=true;
       res.json({success,authToken});

@@ -79,6 +79,7 @@ function Signup(props) {
             id="name"
             name="name"
             placeholder="Enter your name"
+            required
           />
         </div>
         <div className="mb-3">
@@ -94,6 +95,7 @@ function Signup(props) {
             name="email"
             aria-describedby="emailHelp"
             placeholder="Enter your email"
+            required
           />
         </div>
         <div className="mb-3">

@@ -70,6 +70,7 @@ function Login(props) {
             name="email"
             placeholder="Enter your email"
             aria-describedby="emailHelp"
+            required
           />
         </div>
         <div className="mb-3">
@@ -81,9 +82,11 @@ function Login(props) {
             onChange={handleChange}
             className="form-control"
             value={credentials.password}
+            minLength={5}
             id="password"
             name="password"
             placeholder="Enter your password"
+            required
           />
         </div>
         <button type="submit" className="btn btn-success">

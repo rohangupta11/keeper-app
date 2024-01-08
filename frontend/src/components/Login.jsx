@@ -7,12 +7,13 @@ function Login(props) {
     email: "",
     password: "",
   });
+  const host=process.env.REACT_APP_API_URL;
   let navigate=useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
         //fetching from login endpoint api
-      const response = await fetch(`http://localhost:5000/api/auth/login`, {
+      const response = await fetch(`${host}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,6 +24,7 @@ function Login(props) {
         }),
       });
       const json = await response.json();
+      console.log(json);
       setCredentials({ //createnote area becomes empty on submission of note
         email: "",
         password: ""

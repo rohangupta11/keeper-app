@@ -8,6 +8,7 @@ function Signup(props) {
     password: "",
     cpassword: "",
   });
+  const host=process.env.REACT_APP_API_URL;
   let navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,7 +19,7 @@ function Signup(props) {
       try {
         //fetching from login endpoint api
         const response = await fetch(
-          `http://localhost:5000/api/auth/createuser`,
+          `${host}/api/auth/createuser`,
           {
             method: "POST",
             headers: {
@@ -116,7 +117,7 @@ function Signup(props) {
             Confirm Password
           </label>
           <input
-            type="cpassword"
+            type="password"
             onChange={handleChange}
             className="form-control"
             value={credentials.cpassword}

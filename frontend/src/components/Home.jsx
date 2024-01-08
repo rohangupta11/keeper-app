@@ -5,7 +5,7 @@ import Search from "./Search";
 import { useNavigate } from "react-router-dom";
 
 const Home = ({showAlert}) => {
-    const host="http://localhost:5000";
+    const host=process.env.REACT_APP_API_URL;
     const [notes, setNotes] = useState([]); //our notes array
     const [searchText, setSearchText] = useState(""); //state of search text
     let navigate=useNavigate();

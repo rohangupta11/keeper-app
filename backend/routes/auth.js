@@ -5,8 +5,10 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt=require("jsonwebtoken");
 const fetchUser=require("../middleware/fetchUser");
+const dotenv=require("dotenv");
+dotenv.config();
 
-const JWT_SECRET="64738248929"
+const JWT_SECRET=process.env.JWT_SECRET;
 
 //ROUTE 1:Create a user using POST "api/auth/createuser". Doesnt need authorisation
 router.post(

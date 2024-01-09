@@ -82,7 +82,7 @@ router.post(
                 //if no such user exists then send status 400 and return
                 return res
                 .status(400)
-                .json({ errors: "Please try to login with correct credentials" });
+                .json({success,errors: "Please try to login with correct credentials" });
             }
             const passwordCompare=await bcrypt.compare(password,user.password);
             if(!passwordCompare){

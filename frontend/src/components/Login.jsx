@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login(props) {
+  const [loading, setLoading] = useState(false);
   const [credentials, setCredentials] = useState({
     //state of our new credentials
     email: "",
@@ -11,6 +12,7 @@ function Login(props) {
   let navigate=useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
         //fetching from login endpoint api
       const response = await fetch(`${host}/api/auth/login`, {
@@ -24,11 +26,11 @@ function Login(props) {
         }),
       });
       const json = await response.json();
-      console.log(json);
       setCredentials({ //createnote area becomes empty on submission of note
         email: "",
         password: ""
       });
+      setLoading(false);
       if(json.success)
       {
         //save the authtoken and redirect
@@ -40,6 +42,7 @@ function Login(props) {
         props.showAlert("Invalid credentials, Please try again!","danger");
       }
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
   };
@@ -93,6 +96,9 @@ function Login(props) {
           Submit
         </button>
       </form>
+      {loading && <div class="spinner-border mt-2 mx-3" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>}
     </div>
   );
 }

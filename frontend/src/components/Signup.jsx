@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 function Signup(props) {
+  const [loading, setLoading] = useState(false);
   const [credentials, setCredentials] = useState({
     //state of our new credentials
     name: "",
@@ -16,6 +17,7 @@ function Signup(props) {
       props.showAlert("Passwords don't match, Please try again!","danger");
     } 
     else {
+      setLoading(true);
       try {
         //fetching from login endpoint api
         const response = await fetch(
@@ -40,6 +42,7 @@ function Signup(props) {
           password: "",
           cpassword:""
         });
+        setLoading(false);
         if (json.success) {
           //save the authtoken and redirect
           localStorage.setItem("token", json.authToken);
@@ -49,6 +52,7 @@ function Signup(props) {
           props.showAlert("A user with this email already exists, Please try again!","danger");
         }
       } catch (err) {
+        setLoading(false);
         console.log(err);
       }
     }
@@ -134,6 +138,9 @@ function Signup(props) {
           Submit
         </button>
       </form>
+      {loading && <div class="spinner-border mt-2 mx-3" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>}
     </div>
   );
 }
